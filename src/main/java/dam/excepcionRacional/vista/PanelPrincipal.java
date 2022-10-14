@@ -4,6 +4,13 @@
  */
 package dam.excepcionRacional.vista;
 
+import dam.excepcionRacional.excepcion.ExcepcionDivCero;
+import dam.excepcionRacional.excepcion.ExcepcionNumDenMal;
+import java.io.Console;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dam
@@ -114,7 +121,35 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        
+        try {
+            if (Double.parseDouble(txtNumerador.getText()) >= 100 || Double.parseDouble(txtDenominador.getText()) <= -5) {
+                throw new ExcepcionNumDenMal("Números introducidos no válidos.");
+            }
+            
+            if (Double.parseDouble(txtDenominador.getText()) == 0.0) {
+                throw new ExcepcionDivCero("División entre cero.");
+            }
+            
+            Double resultado = Double.parseDouble(txtNumerador.getText()) / Double.parseDouble(txtDenominador.getText());
+            
+            txtResultado.setText((Math.round(resultado * 100)/100.0) + "");
+            JOptionPane.showMessageDialog(miVentana, "Operación realizada.");
+        } catch (java.lang.NumberFormatException e) {
+            JOptionPane.showMessageDialog(miVentana, "Se han introducido caracteres no numericos.");
+            txtNumerador.setText("");
+            txtDenominador.setText("");
+            txtResultado.setText("");
+        } catch (ExcepcionNumDenMal e) {
+            JOptionPane.showMessageDialog(miVentana, e.getMessage());
+            txtNumerador.setText("");
+            txtDenominador.setText("");
+            txtResultado.setText("");
+        } catch (ExcepcionDivCero e) {
+            JOptionPane.showMessageDialog(miVentana, e.getMessage());
+            txtNumerador.setText("");
+            txtDenominador.setText("");
+            txtResultado.setText("");
+        }
     }//GEN-LAST:event_btnContinuarActionPerformed
 
 
